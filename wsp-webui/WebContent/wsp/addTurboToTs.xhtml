@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:mj="http://mojarra.dev.java.net/mojarra_ext"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<title>Welcome to the Wall Street Project</title>
+</h:head>
+<h:body>
+	<center>
+
+		<h1>Welcome to the WALLSTREET PROJECT</h1>
+
+		<h:form id="form">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:menuitem value="Home" icon="ui-icon-home" url="/wsp/main.jsf" />
+
+				<p:submenu label="Turbo" icon="ui-icon-document">
+					<p:menuitem value="New" icon="ui-icon-script" url="addTurbo.jsf" />
+					<p:menuitem value="Edit" icon="ui-icon-pencil" url="editTurbo.jsf" />
+
+				</p:submenu>
+
+				<p:submenu label="Trading Session" icon="ui-icon-signal-diag">
+					<p:menuitem value="New" icon="ui-icon-script" url="addTs.jsf" />
+					<p:menuitem value="Edit" icon="ui-icon-pencil" url="editTs.jsf" />
+					<p:menuitem value="List" icon="ui-icon-calculator" url="listTs.jsf" />
+					<p:menuitem value="Add Turbo to Trading session"
+						icon="ui-icon-circle-plus" url="addTurboToTs.jsf" />
+				</p:submenu>
+
+				<p:submenu label="Reporting" icon="ui-icon-folder-open">
+					<p:menuitem value="Capital" icon="ui-icon-script"
+						url="reportCapital.jsf" />
+					<p:menuitem value="Ask and Bid" icon="ui-icon-pencil"
+						url="reportAskBid.jsf" />
+					<p:menuitem value="Liquidity" icon="ui-icon-calculator"
+						url="reportLiq.jsf" />
+					<p:submenu label="Charts" icon="ui-icon-document">
+						<p:menuitem value="All Charts" url="allChart.jsf" />
+						<p:menuitem value="Positions" url="positionChart.jsf" />
+						<p:menuitem value="CAC 40" url="cacChart.jsf" />
+						<p:menuitem value="Capital and Liquidity" url="capliqChart.jsf" />
+						<p:menuitem value="Stats" url="StatChart.jsf" />
+					</p:submenu>
+				</p:submenu>
+
+				<p:menuitem value="Configuration" icon="ui-icon-bookmark"
+					url="/wsp/config.jsf" />
+				<f:facet name="options">
+					<h:outputLabel name="logout" value="${sessionScope.user.name}" />
+					<p:commandButton id="logout" value="Logout"
+						action="#{Login.doLogout}" icon="ui-icon-person" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</center>
+
+	<h:form id="form1">
+		<p:messages id="message" />
+		<p:panel id="TsSelect" header="Trading Session Selection">
+			<p:messages id="messages" />
+			<p:panelGrid columns="2" id="TsSel">
+				<h:outputLabel id="Ts" value="Trading Session : " />
+				<p:selectOneMenu value="#{TsMB.selectedtradingSession}"
+					effect="fade">
+					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
+						itemDisabled="true" />
+					<f:selectItems value="#{TsMB.tss}" var="Ts" itemLabel="#{Ts.name}"
+						itemValue="#{Ts.idTradingSession}" />
+				</p:selectOneMenu>
+				<h:outputLabel id="Emm" value="Transmitter : " />
+				<p:selectOneMenu value="#{TsMB.selectedEmetteur}"
+					effect="fade">
+					<f:selectItem itemLabel="Select One Transmitter" itemValue=""
+						itemDisabled="false" />
+					<f:selectItems value="#{TurboMB.emetteurs}"  var="em" itemLabel="#{em}"
+						itemValue="#{em}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+			<p:commandButton id="SetSession" title="Select Trading Session"
+				update="dragArea, dropArea" action="#{TsMB.selectSession}"
+				value="Select the trading session" />
+
+		</p:panel>
+
+
+		<p:fieldset id="avTurbos" legend="Available Turbos">
+			<p:outputPanel id="dragArea">
+				<h:outputText value="!!!Drop here!!!"
+					rendered="#{empty TurboMB.availableTurbos}" style="font-size:24px;" />
+
+				<p:dataTable id="dataTable" var="turbo"
+					value="#{TurboMB.availableTurbos}" rowKey="#{turbo.idTurbo}" widgetVar="TurboTable"
+					emptyMessage="No Turbos found with given criteria"
+					filteredValue="#{TurboMB.filteredTurbos}" >
+
+					<p:column id="ID" filterBy="#{turbo.idTurbo}" headerText="Id"
+						footerText="equals" filterMatchMode="exact" >
+						<h:outputLink id="sdragIcon" value="#{turbo.url}" target="_blank">
+							<h:outputText value="#{turbo.idTurbo}" />
+						</h:outputLink>
+						<p:draggable for="sdragIcon" revert="true" />
+					</p:column>
+
+					<p:column id="Name" filterBy="#{turbo.name}" headerText="Name"
+						footerText="contains">
+
+						<h:outputText value="#{turbo.name}" />
+
+					</p:column>
+
+					<p:column id="Emetteur" filterBy="#{turbo.emetteur}"
+						headerText="Emetteur" footerText="exact"
+						filterOptions="#{TurboMB.transmitterOptions}"
+						filterMatchMode="exact" sortBy="#{turbo.emetteur}">
+						<h:outputText value="#{turbo.emetteur}" />
+					</p:column>
+
+					<p:column id="Type" filterBy="#{turbo.typeTurbo}" headerText="Type"
+						footerText="Contains" filterMatchMode="contains">
+						<h:outputText value="#{turbo.typeTurbo}" />
+					</p:column>
+
+					<p:column id="Bdes" filterBy="#{turbo.barDes}"
+						headerText="Barriére désactivante" footerText="equals"
+						filterMatchMode="exact">
+						<h:outputText value="#{turbo.barDes}" />
+					</p:column>
+
+					<p:column id="State" filterBy="#{turbo.state}" headerText="Etat"
+						footerText="equals" filterMatchMode="exact">
+						<h:outputText value="#{turbo.state}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:outputPanel>
+		</p:fieldset>
+
+		<p:fieldset id="SelTurbos"
+			legend="Turbo Assigned to the Trading Session">
+			<p:outputPanel id="dropArea">
+				<h:outputText value="!!!Drop here!!!"
+					rendered="#{empty TurboMB.selectedTurbos}" style="font-size:24px;" />
+				<p:dataTable id="SelectedTurbo" var="sturbo"
+					value="#{TurboMB.selectedTurbos}"
+					rendered="#{not empty TurboMB.selectedTurbos}">
+					<p:column id="ID" filterBy="#{sturbo.idTurbo}" headerText="Id"
+						footerText="equals" filterMatchMode="exact">
+						<h:outputLink id="sdragIcon" value="#{sturbo.url}" target="_blank">
+							<h:outputText value="#{sturbo.idTurbo}" />
+						</h:outputLink>
+						<p:draggable for="sdragIcon" revert="true" />
+					</p:column>
+
+					<p:column headerText="Name">
+						<h:outputText value="#{sturbo.name}" />
+					</p:column>
+
+					<p:column headerText="Desactivating Barrier: ">
+						<h:outputText value="#{sturbo.barDes}" />
+					</p:column>
+
+					<p:column headerText="Due Date: ">
+						<h:outputText value="#{sturbo.echeanceDate}" />
+					</p:column>
+
+					<p:column headerText="Transmitter: ">
+						<h:outputText value="#{sturbo.emetteur}" />
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</p:fieldset>
+		<p:droppable for="SelTurbos" tolerance="touch"
+			datasource="dataTable">
+			<p:ajax listener="#{TurboMB.onaturboDrop}"
+				update="dropArea,dragArea" />
+		</p:droppable>
+		<p:droppable for="avTurbos" tolerance="touch"
+			datasource="SelectedTurbo">
+			<p:ajax listener="#{TurboMB.onsturboDrop}"
+				update="dropArea,dragArea" />
+		</p:droppable>
+	</h:form>
+
+
+</h:body>
+</html>
