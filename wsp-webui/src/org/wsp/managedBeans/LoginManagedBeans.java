@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.wsp.Filters.LoginFilter;
 import org.wsp.models.Users;
 import org.wsp.service.Interfaces.UsersServiceInterface;
 import org.wsp.utils.TcpClient;
