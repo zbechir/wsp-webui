@@ -27,7 +27,7 @@ public class TsServiceImpl implements TsServiceInterface {
 		tradingSession.setCreationDate(new Date());
 		tradingSession.setBenefits(0);
 		tradingSession.setGlobalBalance(0);
-		tradingSession.setState(1);
+		tradingSession.setState(3);
 		dao.add(tradingSession);
 	}
 

@@ -71,14 +71,14 @@ public class TurboDAO {
 		return sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from Turbo where tradingSessionIdTradingSession =:TsId")
+						"from Turbo where  state <> 0 and state <> 99 and tradingSessionIdTradingSession =:TsId")
 				.setInteger("TsId", tradingSession.getIdTradingSession())
 				.list();
 		}else{
 			return sessionFactory
 					.getCurrentSession()
 					.createQuery(
-							"from Turbo where tradingSessionIdTradingSession is null")
+							"from Turbo where state <> 0 and state <> 99 and tradingSessionIdTradingSession is null")
 					
 					.list();
 		}
@@ -91,7 +91,7 @@ public class TurboDAO {
 		return sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from Turbo where tradingSessionIdTradingSession =:TsId and emetteur =:Em")
+						"from Turbo where state <> 0 and state <> 99 and tradingSessionIdTradingSession =:TsId and emetteur =:Em")
 				.setInteger("TsId", tradingSession.getIdTradingSession())
 				.setString("Em", Emmeteur)
 				.list();
@@ -99,7 +99,7 @@ public class TurboDAO {
 			return sessionFactory
 					.getCurrentSession()
 					.createQuery(
-							"from Turbo where tradingSessionIdTradingSession is null and emetteur =:Em")
+							"from Turbo where state <> 0 and state <> 99 and tradingSessionIdTradingSession is null and emetteur =:Em")
 					.setString("Em", Emmeteur)
 					.list();
 		}
