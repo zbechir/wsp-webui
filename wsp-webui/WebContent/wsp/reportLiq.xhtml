@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:mj="http://mojarra.dev.java.net/mojarra_ext"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<title>Welcome to the Wall Street Project</title>
+</h:head>
+<h:body>
+	<center>
+
+		<h1>Welcome to the WALLSTREET PROJECT</h1>
+
+		<h:form id="form">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:menuitem value="Home" icon="ui-icon-home" url="/wsp/main.jsf" />
+
+				<p:submenu label="Turbo" icon="ui-icon-document">
+					<p:menuitem value="New" icon="ui-icon-script" url="addTurbo.jsf" />
+					<p:menuitem value="Edit" icon="ui-icon-pencil" url="editTurbo.jsf" />
+
+				</p:submenu>
+
+				<p:submenu label="Trading Session" icon="ui-icon-signal-diag">
+					<p:menuitem value="New" icon="ui-icon-script" url="addTs.jsf" />
+					<p:menuitem value="Edit" icon="ui-icon-pencil" url="editTs.jsf" />
+					<p:menuitem value="List" icon="ui-icon-calculator" url="listTs.jsf" />
+					<p:menuitem value="Add Turbo to Trading session"
+						icon="ui-icon-circle-plus" url="addTurboToTs.jsf" />
+				</p:submenu>
+
+				<p:submenu label="Reporting" icon="ui-icon-folder-open">
+					<p:menuitem value="Capital" icon="ui-icon-script"
+						url="reportCapital.jsf" />
+					<p:menuitem value="Ask and Bid" icon="ui-icon-pencil"
+						url="reportAskBid.jsf" />
+					<p:menuitem value="Liquidity" icon="ui-icon-calculator"
+						url="reportLiq.jsf" />
+					<p:submenu label="Charts" icon="ui-icon-document">
+						<p:menuitem value="All Charts" url="allChart.jsf" />
+						<p:menuitem value="Positions" url="positionChart.jsf" />
+						<p:menuitem value="CAC 40" url="cacChart.jsf" />
+						<p:menuitem value="Capital and Liquidity" url="capliqChart.jsf" />
+						<p:menuitem value="Stats" url="StatChart.jsf" />
+					</p:submenu>
+				</p:submenu>
+
+				<p:menuitem value="Configuration" icon="ui-icon-bookmark"
+					url="/wsp/config.jsf" />
+				<f:facet name="options">
+					<h:outputLabel name="logout" value="${sessionScope.user.name}" />
+					<p:commandButton id="logout" value="Logout"
+						action="#{Login.doLogout}" icon="ui-icon-person" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</center>
+	<h:form id="form1">
+
+		<p:growl id="growl" showDetail="true" />
+		<p:poll interval="30" update="Liquid" />
+
+		<p:panel id="TsSelect" header="Trading Session Selection">
+			<p:messages id="messages" />
+			<p:panelGrid columns="2" id="TsSel">
+				<h:outputLabel id="Ts" value="Trading Session : " />
+				<p:selectOneMenu value="#{ReportMB.tradingSession}" effect="fade">
+					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
+						itemDisabled="true" />
+					<f:selectItems value="#{ReportMB.tradingSessions}" var="Ts"
+						itemLabel="#{Ts.name}" itemValue="#{Ts.idTradingSession}" />
+				</p:selectOneMenu>
+				<h:outputLabel id="Date" value="Begining Date : " />
+				<p:calendar value="#{ReportMB.date}" id="popupButtonCal" />
+			</p:panelGrid>
+			<p:commandButton id="SetSession" title="Select Trading Session"
+				update="Liquid" action="#{ReportMB.selectSession}"
+				value="Select the trading session" />
+		</p:panel>
+		<p:panel id="liq" header="Liquidite">
+			<p:dataTable id="Liquid" var="Liq" value="#{ReportMB.soldeSessions}">
+				<p:column headerText="Id">
+					<h:outputText value="#{Liq.idSoldeSession}" />
+				</p:column>
+
+				<p:column headerText="Trading Session">
+					<h:outputText value="#{Liq.tradingSessionIdTradingSession}" />
+				</p:column>
+
+				<p:column headerText="Ask and Bid">
+					<h:outputText value="#{Liq.askBidIdAskBid}" />
+				</p:column>
+
+				<p:column headerText="Time">
+					<h:outputText value="#{Liq.timeSnapshot}" />
+				</p:column>
+
+				<p:column headerText="Amount">
+					<h:outputText value="#{Liq.soldeLiquid}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
