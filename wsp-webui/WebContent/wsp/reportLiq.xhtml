@@ -70,21 +70,24 @@
 			<p:messages id="messages" />
 			<p:panelGrid columns="2" id="TsSel">
 				<h:outputLabel id="Ts" value="Trading Session : " />
-				<p:selectOneMenu value="#{ReportMB.tradingSession}" effect="fade">
+				<p:selectOneMenu value="#{Report.tsId}" effect="fade">
 					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
 						itemDisabled="true" />
-					<f:selectItems value="#{ReportMB.tradingSessions}" var="Ts"
+					<f:selectItems value="#{Report.tss}" var="Ts"
 						itemLabel="#{Ts.name}" itemValue="#{Ts.idTradingSession}" />
 				</p:selectOneMenu>
 				<h:outputLabel id="Date" value="Begining Date : " />
-				<p:calendar value="#{ReportMB.date}" id="popupButtonCal" />
+				<p:calendar value="#{Report.dd}" id="popupButtonCal" />
+				<h:outputText value="#{Report.dd}" id="inlineDate">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 			</p:panelGrid>
 			<p:commandButton id="SetSession" title="Select Trading Session"
-				update="Liquid" action="#{ReportMB.selectSession}"
+				update="Liquid" action="#{Report.selectSession()}"
 				value="Select the trading session" />
 		</p:panel>
 		<p:panel id="liq" header="Liquidite">
-			<p:dataTable id="Liquid" var="Liq" value="#{ReportMB.soldeSessions}">
+			<p:dataTable id="Liquid" var="Liq" value="#{Report.soldeSesions}">
 				<p:column headerText="Id">
 					<h:outputText value="#{Liq.idSoldeSession}" />
 				</p:column>

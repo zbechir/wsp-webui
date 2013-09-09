@@ -70,35 +70,38 @@
 			<p:messages id="messages" />
 			<p:panelGrid columns="2" id="TsSel">
 				<h:outputLabel id="Ts" value="Trading Session : " />
-				<p:selectOneMenu value="#{ReportMB.tradingSession}" effect="fade">
+				<p:selectOneMenu value="#{Report.tsId}" effect="fade">
 					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
 						itemDisabled="true" />
-					<f:selectItems value="#{ReportMB.tradingSessions}" var="Ts"
+					<f:selectItems value="#{Report.tss}" var="Ts"
 						itemLabel="#{Ts.name}" itemValue="#{Ts.idTradingSession}" />
 				</p:selectOneMenu>
 				<h:outputLabel id="Date" value="Begining Date : " />
-				<p:calendar value="#{ReportMB.date}" id="popupButtonCal" />
+				<p:calendar value="#{Report.dd}" id="popupButtonCal" />
+				<h:outputText value="#{Report.dd}" id="inlineDate">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 			</p:panelGrid>
 			<p:commandButton id="SetSession" title="Select Trading Session"
-				update="cap" action="#{ReportMB.selectSession}"
+				update="cap" action="#{Report.selectSession()}"
 				value="Select the trading session" />
 		</p:panel>
 		<p:panel id="capi" header="Capital">
-			<p:dataTable id="cap" var="Capital" value="#{ReportMB.capitals}">
+			<p:dataTable id="cap" var="Cap" value="#{Report.capitals}">
 				<p:column headerText="Id">
-					<h:outputText value="#{Capital.idSuivieCapital}" />
+					<h:outputText value="#{Cap.idSuivieCapital}" />
 				</p:column>
 
 				<p:column headerText="Trading Session">
-					<h:outputText value="#{Capital.tradingSessionIdTradingSession}" />
+					<h:outputText value="#{Cap.tradingSessionIdTradingSession}" />
 				</p:column>
 
 				<p:column headerText="Time">
-					<h:outputText value="#{Capital.snapshotTime}" />
+					<h:outputText value="#{Cap.snapshotTime}" />
 				</p:column>
 
 				<p:column headerText="Capital">
-					<h:outputText value="#{Capital.montant}" />
+					<h:outputText value="#{Cap.montant}" />
 				</p:column>
 			</p:dataTable>
 

@@ -26,7 +26,7 @@ public class SuivieCapitalDAO {
 		return sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from SuivieCapital where tradingSessionIdTradingSession = :id order by snapshotTime desc , idSoldeSession desc")
+						"from SuivieCapital where tradingSessionIdTradingSession = :id order by snapshotTime desc , idSuivieCapital desc")
 				.setInteger("id", tradingSession.getIdTradingSession())
 				.setMaxResults(100).list();
 	}
@@ -39,6 +39,6 @@ public class SuivieCapitalDAO {
 						"from SuivieCapital where tradingSessionIdTradingSession = :id and snapshotTime > :dt order by snapshotTime desc , idSuivieCapital desc")
 				.setInteger("id", tradingSession.getIdTradingSession())
 				.setDate("dt", date)
-				.setMaxResults(100).list();
+				.list();
 	}
 }

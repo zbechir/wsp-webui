@@ -1,5 +1,6 @@
 package org.wsp.service.Implements;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class SoldeSessionServiceImpl implements SoldeSessionServiceInterface {
 	@Override
 	public List<SoldeSession> getAll(TradingSession tradingSession) {
 		return dao.getSoldeSession(tradingSession);
+	}
+	@Override
+	public List<SoldeSession> getAll(TradingSession tradingSession, Date date) {
+		return dao.getSoldeSession(tradingSession, date);
 	}
 
 }

@@ -70,51 +70,54 @@
 			<p:messages id="messages" />
 			<p:panelGrid columns="2" id="TsSel">
 				<h:outputLabel id="Ts" value="Trading Session : " />
-				<p:selectOneMenu value="#{ReportMB.tradingSession}" effect="fade">
+				<p:selectOneMenu value="#{Report.tsId}" effect="fade">
 					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
 						itemDisabled="true" />
-					<f:selectItems value="#{ReportMB.tradingSessions}" var="Ts"
+					<f:selectItems value="#{Report.tss}" var="Ts"
 						itemLabel="#{Ts.name}" itemValue="#{Ts.idTradingSession}" />
 				</p:selectOneMenu>
 				<h:outputLabel id="Date" value="Begining Date : " />
-				<p:calendar value="#{ReportMB.date}" id="popupButtonCal" />
+				<p:calendar value="#{Report.dd}" id="popupButtonCal" />
+				<h:outputText value="#{Report.dd}" id="inlineDate">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 			</p:panelGrid>
 			<p:commandButton id="SetSession" title="Select Trading Session"
-				update="ab" action="#{ReportMB.selectSession}"
+				update="ab" action="#{Report.selectSession()}"
 				value="Select the trading session" />
 		</p:panel>
 		<p:panel id="aandb" header="Ask and Bid">
-			<p:dataTable id="ab" var="AskBid" value="#{ReportMB.askBids}">
+			<p:dataTable id="ab" var="ab" value="#{Report.askBids}">
 				<p:column headerText="Id">
-					<h:outputText value="#{AskBid.idAskBid}" />
+					<h:outputText value="#{ab.idAskBid}" />
 				</p:column>
 
 				<p:column headerText="Trading Session">
-					<h:outputText value="#{AskBid.tradingSessionIdTradingSession}" />
+					<h:outputText value="#{ab.tradingSessionIdTradingSession}" />
 				</p:column>
 
 				<p:column headerText="Turbo">
-					<h:outputText value="#{AskBid.turboIdTurbo}" />
+					<h:outputText value="#{ab.turboIdTurbo}" />
 				</p:column>
 
 				<p:column headerText="Time">
-					<h:outputText value="#{AskBid.transDate}" />
+					<h:outputText value="#{ab.transDate}" />
 				</p:column>
 
 				<p:column headerText="Ask Or Bid">
-					<h:outputText value="#{AskBid.askOrBid}" />
+					<h:outputText value="#{ab.askOrBid}" />
 				</p:column>
 
 				<p:column headerText="Quantity">
-					<h:outputText value="#{AskBid.qte}" />
+					<h:outputText value="#{ab.qte}" />
 				</p:column>
 
 				<p:column headerText="Amount">
-					<h:outputText value="#{AskBid.montantGlobal}" />
+					<h:outputText value="#{ab.montantGlobal}" />
 				</p:column>
 
 				<p:column headerText="Unit Price">
-					<h:outputText value="#{AskBid.prixUnitaire}" />
+					<h:outputText value="#{ab.prixUnitaire}" />
 				</p:column>
 			</p:dataTable>
 

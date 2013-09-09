@@ -1,5 +1,6 @@
 package org.wsp.service.Implements;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -18,6 +19,10 @@ public class SuivieCapitalServiceImpl implements SuivieCapitalServiceInterface {
 	@Override
 	public List<SuivieCapital> getAll(TradingSession tradingSession) {
 		return dao.getSoldeSession(tradingSession);
+	}
+	@Override
+	public List<SuivieCapital> getAll(TradingSession tradingSession, Date date) {
+		return dao.getSoldeSession(tradingSession, date);
 	}
 
 }

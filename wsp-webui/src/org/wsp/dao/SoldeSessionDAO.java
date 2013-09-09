@@ -38,6 +38,6 @@ public class SoldeSessionDAO {
 						"from SoldeSession where tradingSessionIdTradingSession = :id and timeSnapshot > :dt order by timeSnapshot desc , idSoldeSession desc")
 				.setInteger("id", tradingSession.getIdTradingSession())
 				.setDate("dt", date)
-				.setMaxResults(100).list();
+				.list();
 	}
 }

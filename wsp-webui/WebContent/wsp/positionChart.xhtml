@@ -64,28 +64,31 @@
 	<h:form id="form1">
 
 		<p:growl id="growl" showDetail="true" />
-		<p:poll interval="30" update="cap" />
+		<p:poll interval="30" update="Tp" />
 
 		<p:panel id="TsSelect" header="Trading Session Selection">
 			<p:messages id="messages" />
 			<p:panelGrid columns="2" id="TsSel">
 				<h:outputLabel id="Ts" value="Trading Session : " />
-				<p:selectOneMenu value="#{ReportMB.tradingSession}" effect="fade">
+				<p:selectOneMenu value="#{Report.tsId}" effect="fade">
 					<f:selectItem itemLabel="Select One Trading Session" itemValue=""
 						itemDisabled="true" />
-					<f:selectItems value="#{ReportMB.tradingSessions}" var="Ts"
+					<f:selectItems value="#{Report.tss}" var="Ts"
 						itemLabel="#{Ts.name}" itemValue="#{Ts.idTradingSession}" />
 				</p:selectOneMenu>
 				<h:outputLabel id="Date" value="Begining Date : " />
-				<p:calendar value="#{ReportMB.date}" id="popupButtonCal" />
+				<p:calendar value="#{Report.dd}" id="popupButtonCal" />
+				<h:outputText value="#{Report.dd}" id="inlineDate">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 			</p:panelGrid>
 			<p:commandButton id="SetSession" title="Select Trading Session"
-				update="cap" action="#{ReportMB.selectSession}"
+				update="Tp" action="#{Report.selectSession()}"
 				value="Select the trading session" />
 		</p:panel>
 		<p:panel header="">
 			<p:graphicImage id="Tp" height="750" width="1480"
-				value="#{ChartMB.tpchart}" />
+				value="#{Chart.tpchart}" />
 		</p:panel>
 	</h:form>
 </h:body>
