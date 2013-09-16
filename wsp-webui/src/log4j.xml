@@ -10,7 +10,7 @@
 	</appender>
 	<appender name="DB" class="org.apache.log4j.jdbc.JDBCAppender">
 		<param name="Threshold" value="info" />
-		<param name="URL" value="jdbc:mysql://wspdevdb/wsp_logs" />
+		<param name="URL" value="jdbc:mysql://wspdbvip/wsp_logs" />
 		<param name="Driver" value="com.mysql.jdbc.Driver" />
 		<param name="User" value="wsp" />
 		<param name="Password" value="86GAptWjnBQqGdw7" />
@@ -20,18 +20,28 @@
 		</layout>
 	</appender>
 	<appender name="Output" class="org.apache.log4j.FileAppender">
-		<param name="File" value="/home/bechir/workspace/apache-tomcat-7.0.42/logs/wsp.out.log" />
+		<param name="File"
+			value="logs/wsp.out.log" />
 		<param name="Append" value="true" />
-		<param name="Threshold" value="debug" />
+		<param name="Threshold" value="warning" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%t]  %-5p
 %c{2} - %m%n" />
 		</layout>
 	</appender>
 
+	<appender name="syslog" class="org.apache.log4j.net.SyslogAppender">
+		<param name="Facility" value="USER" />
+		<param name="SyslogHost" value="wspadmadmin" />
+		<param name="Threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{MMM dd HH:mm:ss} wsp-tomcat: %-5p %C %m%n" />
+		</layout>
+	</appender>
+
 	<root>
 		<priority value="all" />
-		<appender-ref ref="console" />
+		<appender-ref ref="syslog" />
 		<appender-ref ref="Output" />
 		<appender-ref ref="DB" />
 	</root>
